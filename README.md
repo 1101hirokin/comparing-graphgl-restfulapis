@@ -9,21 +9,25 @@
 
 ## 使用言語・ソフトウェア・アプリケーション・その他ツール
 
-1. サーバー：Google Cloud Platform > Google Compute Engine VMインスタンス us-west1リージョン（オレゴン州に立地、東京との距離およそ8,000km）
+1. サーバー：localhost
 
-	採用理由：ただGCPを使いたかった。無料枠があるので助かる。
+	採用理由：サーバー内部の処理速度測定なのでまぁMacBookでも良いかなとローカル環境で検証。
 
-2. コンテナ仮想化：Docker()、Docker Compose()
+
+2. コンテナ仮想化：Docker(v19.03.8)、Docker Compose(3.0)
 
 	採用理由：ローカル開発と本番環境の各ソフトや言語の環境差異吸収のため
+	| マシン | OS | プロセッサ | メモリ |
+	| :---: | :---: | :---: | :---: |
+	| MacBook Pro 2016 | macOS Catalina v10.15.4 | 2.6 Ghz クアッドコア Intel Core i7 | 16GB |
 
-3. プログラミング言語：Go()
+3. プログラミング言語：Go(1.14.3-alpine3.11)
 
-	採用理由：個人的にGolangが好き。最近のコンパイル言語の中で一番シンプルにかける。コンパイル言語なので応答速度は十分速い。
+	採用理由：個人的にGolangが好き。最近のコンパイル言語の中で一番シンプルにかける。コンパイル言語なので応答速度は十分速い。より実践的にするため軽量Linuxディストリビューションの「alpine」ベースのイメージを使用
 
-4. データベース：MySQL()
+4. データベース：MySQL(8.0.20)
 
-	採用理由：特になし。使い慣れているだけ。
+	採用理由：特になし。使い慣れているだけ。最新版を使ってみたかったのでDockerHub上のlatest版を使用。
 
 5. ライブラリ（標準ライブラリは省略）
 
@@ -64,3 +68,62 @@
 - POST; http://domain.to.server/graphql
 
 	CURD全てを担当
+
+	- 例：ユーザー一覧を取得（レスポンスはid, name, email, bioカラムを取得）
+		```
+		{
+			users{
+				id,
+				name,
+				email,
+				bio,
+			}
+		}
+		```
+	- 例：指定IDのユーザーを取得（レスポンスはid, name, url_avatarカラムを取得）
+		```
+		{
+			user(id: 1){
+				id,
+				name,
+				url_avatar,
+			}
+		}
+		```
+	- 例：新規ユーザーを作成（レスポンスはid, nameカラムを取得）
+		```
+		mutation {
+			createUser (
+				name: "hiroki",
+				email: "example@example.com",
+				bio: "Hello GraphQL World !",
+			) {
+				id
+				name
+			}
+		}
+		```
+	- 例：指定IDのユーザー情報を上書き（レスポンスはid, name, url_avatar, bioカラムを取得）
+		```
+		mutation {
+			updateUser (
+				id: 7
+				name: "hiroki_updated",
+			) {
+				id
+				name
+				bio
+			}
+		}
+		```
+	- 例：指定IDのユーザーを削除（レスポンスはid, nameカラムを取得）
+		```
+		mutation {
+			deleteUser (
+				id: 1
+			) {
+				id
+				name
+			}
+		}
+		```
