@@ -45,6 +45,8 @@
 |型|unsigined integer|datetime|datetime|text|text|text|text|
 |例|1|2020-05-23 23:59:59|2020-05-24 18:42:08|例田 太郎|email@example.com|こんにちは！例田太郎です。|https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png|
 
+<br />
+
 ## エンドポイント
 
 - POST; http://domain.to.server/api/users
@@ -103,7 +105,7 @@
 			}
 		}
 		```
-	- 例：指定IDのユーザー情報を上書き（レスポンスはid, name, url_avatar, bioカラムを取得）
+	- 例：指定IDのユーザー情報を上書き（レスポンスはid, name, bioカラムを取得）
 		```
 		mutation {
 			updateUser (
